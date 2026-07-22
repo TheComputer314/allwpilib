@@ -14,43 +14,41 @@
 
 #include <Eigen/Core>
 
-#include "wpi/math/geometry/Pose2d.hpp"
-#include "wpi/math/geometry/Rotation2d.hpp"
-#include "wpi/math/geometry/Transform2d.hpp"
-#include "wpi/math/geometry/Translation2d.hpp"
+#include "wpi/math/geometry/Pose3d.hpp"
+#include "wpi/math/geometry/Rotation3d.hpp"
+#include "wpi/math/geometry/Transform3d.hpp"
+#include "wpi/math/geometry/Translation3d.hpp"
 #include "wpi/math/interpolation/TimeInterpolatableBuffer.hpp"
-#include "wpi/math/kinematics/TwoDeadWheelOdometry.hpp"
+#include "wpi/math/kinematics/Odometry3d.hpp"
+#include "wpi/math/linalg/EigenCore.hpp"
 #include "wpi/math/util/MathShared.hpp"
 #include "wpi/units/angle.hpp"
 #include "wpi/units/length.hpp"
 #include "wpi/units/time.hpp"
+#include "wpi/util/SymbolExports.hpp"
 #include "wpi/util/array.hpp"
 
 namespace wpi::math {
 
-/**
- * This class wraps Two Dead Wheel Odometry to fuse latency-compensated
- * vision measurements with two-dead-wheel drive encoder distance measurements.
- * It is intended to be a drop-in for TwoDeadWheelOdometry.
- *
- * Update() should be called every robot loop.
- *
- * AddVisionMeasurement() can be called as infrequently as you want; if you
- * never call it, then this class will behave as regular encoder
- * odometry.
- */
-class TwoDeadWheelPoseEstimator {
-  /*
-   * This class uses logic cloned from PoseEstimator.java. It does not extend
-   * PoseEstimator because the structure of the kinematics and odometry classes
-   * assume that the gyro angle is independent from the kinematics, while in a
-   * two-dead-wheel configuration, the gyro is required to do the kinematics, as
-   * otherwise the forward kinematics is rank-deficient.
+  /**
+   * This class wraps Two Dead Wheel Odometry to fuse latency-compensated
+   * vision measurements with swerve drive encoder distance measurements. It is
+   * intended to be a drop-in for TwoDeadWheelOdometry3d. It is also intended to be
+   * an easy replacement for PoseEstimator, only requiring the addition of a
+   * standard deviation for Z and appropriate conversions between 2D and 3D
+   * versions of geometry classes. (See Pose3d(Pose2d), Rotation3d(Rotation2d),
+   * Translation3d(Translation2d), and Pose3d.ToPose2d().)
+   *
+   * Update() should be called every robot loop.
+   *
+   * AddVisionMeasurement() can be called as infrequently as you want; if you
+   * never call it, then this class will behave as regular encoder
+   * odometry.
    */
-
+class TwoDeadWheelPoseEstimator3d {
  public:
   /**
-   * Constructs a PoseEstimator.
+   * Constructs a PoseEstimator3d.
    *
    * @warning The initial pose estimate will always be the default pose,
    * regardless of the odometry's current pose.
@@ -64,8 +62,8 @@ class TwoDeadWheelPoseEstimator {
    *     radians). Increase these numbers to trust the vision pose measurement
    *     less.
    */
-  TwoDeadWheelPoseEstimator(
-      TwoDeadWheelOdometry& odometry,
+  TwoDeadWheelPoseEstimator3d(
+      TwoDeadWheelOdometry3d& odometry,
       const wpi::util::array<double, 3>& stateStdDevs,
       const wpi::util::array<double, 3>& visionMeasurementStdDevs)
       : m_odometry(odometry) {
@@ -87,16 +85,16 @@ class TwoDeadWheelPoseEstimator {
    *     less.
    */
   void SetVisionMeasurementStdDevs(
-      const wpi::util::array<double, 3>& visionMeasurementStdDevs) {
-    // Diagonal of measurement covariance matrix R
-    wpi::util::array<double, 3> r{wpi::util::empty_array};
-    for (size_t i = 0; i < 3; ++i) {
+      const wpi::util::array<double, 4>& visionMeasurementStdDevs) {
+    // Diagonal of measurement noise covariance matrix R
+    wpi::util::array<double, 4> r{wpi::util::empty_array};
+    for (size_t i = 0; i < 4; ++i) {
       r[i] = visionMeasurementStdDevs[i] * visionMeasurementStdDevs[i];
     }
 
     // Solve for closed form Kalman gain for continuous Kalman filter with A = 0
     // and C = I. See wpimath/algorithms.md.
-    for (size_t row = 0; row < 3; ++row) {
+    for (size_t row = 0; row < 4; ++row) {
       if (m_q[row] == 0.0) {
         m_vision_K.diagonal()[row] = 0.0;
       } else {
@@ -104,6 +102,9 @@ class TwoDeadWheelPoseEstimator {
             m_q[row] / (m_q[row] + std::sqrt(m_q[row] * r[row]));
       }
     }
+    double angle_gain = m_vision_K.diagonal()[3];
+    m_vision_K.diagonal()[4] = angle_gain;
+    m_vision_K.diagonal()[5] = angle_gain;
   }
 
   /**
@@ -118,7 +119,7 @@ class TwoDeadWheelPoseEstimator {
    */
   void ResetPosition(const wpi::units::meter_t xWheelPos,
                      const wpi::units::meter_t yWheelPos,
-                     const Rotation2d& gyroAngle, const Pose2d& pose) {
+                     const Rotation3d& gyroAngle, const Pose3d& pose) {
     // Reset state estimate and error covariance
     m_odometry.ResetPosition(xWheelPos, yWheelPos, gyroAngle, pose);
     m_odometryPoseBuffer.Clear();
@@ -131,7 +132,7 @@ class TwoDeadWheelPoseEstimator {
    *
    * @param pose The pose to reset to.
    */
-  void ResetPose(const Pose2d& pose) {
+  void ResetPose(const Pose3d& pose) {
     m_odometry.ResetPose(pose);
     m_odometryPoseBuffer.Clear();
     m_visionUpdates.clear();
@@ -147,7 +148,7 @@ class TwoDeadWheelPoseEstimator {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 #endif  // defined(__GNUC__) && !defined(__clang__)
-  void ResetTranslation(const Translation2d& translation) {
+  void ResetTranslation(const Translation3d& translation) {
     m_odometry.ResetTranslation(translation);
 
     const std::optional<std::pair<units::second_t, VisionUpdate>>
@@ -160,8 +161,8 @@ class TwoDeadWheelPoseEstimator {
     if (latestVisionUpdate) {
       // apply vision compensation to the pose rotation
       const VisionUpdate visionUpdate{
-          Pose2d{translation, latestVisionUpdate->second.visionPose.Rotation()},
-          Pose2d{translation,
+          Pose3d{translation, latestVisionUpdate->second.visionPose.Rotation()},
+          Pose3d{translation,
                  latestVisionUpdate->second.odometryPose.Rotation()}};
       m_visionUpdates[latestVisionUpdate->first] = visionUpdate;
       m_poseEstimate = visionUpdate.Compensate(m_odometry.GetPose());
@@ -182,7 +183,7 @@ class TwoDeadWheelPoseEstimator {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 #endif  // defined(__GNUC__) && !defined(__clang__)
-  void ResetRotation(const Rotation2d& rotation) {
+  void ResetRotation(const Rotation3d& rotation) {
     m_odometry.ResetRotation(rotation);
 
     const std::optional<std::pair<units::second_t, VisionUpdate>>
@@ -195,8 +196,8 @@ class TwoDeadWheelPoseEstimator {
     if (latestVisionUpdate) {
       // apply vision compensation to the pose translation
       const VisionUpdate visionUpdate{
-          Pose2d{latestVisionUpdate->second.visionPose.Translation(), rotation},
-          Pose2d{latestVisionUpdate->second.odometryPose.Translation(),
+          Pose3d{latestVisionUpdate->second.visionPose.Translation(), rotation},
+          Pose3d{latestVisionUpdate->second.odometryPose.Translation(),
                  rotation}};
       m_visionUpdates[latestVisionUpdate->first] = visionUpdate;
       m_poseEstimate = visionUpdate.Compensate(m_odometry.GetPose());
@@ -213,7 +214,7 @@ class TwoDeadWheelPoseEstimator {
    *
    * @return The estimated robot pose in meters.
    */
-  Pose2d GetEstimatedPosition() const { return m_poseEstimate; }
+  Pose3d GetEstimatedPosition() const { return m_poseEstimate; }
 
   /**
    * Return the pose at a given timestamp, if the buffer is not empty.
@@ -222,7 +223,7 @@ class TwoDeadWheelPoseEstimator {
    * @return The pose at the given timestamp (or std::nullopt if the buffer is
    * empty).
    */
-  std::optional<Pose2d> SampleAt(wpi::units::second_t timestamp) const {
+  std::optional<Pose3d> SampleAt(wpi::units::second_t timestamp) const {
     // Step 0: If there are no odometry updates to sample, skip.
     if (m_odometryPoseBuffer.GetInternalBuffer().empty()) {
       return std::nullopt;
@@ -283,7 +284,7 @@ class TwoDeadWheelPoseEstimator {
    *     wpi::Timer::GetMonotonicTimestamp(). This means that you should use
    *     wpi::Timer::GetMonotonicTimestamp() as your time source in this case.
    */
-  void AddVisionMeasurement(const Pose2d& visionRobotPose,
+  void AddVisionMeasurement(const Pose3d& visionRobotPose,
                             wpi::units::second_t timestamp) {
     // Step 0: If this measurement is old enough to be outside the pose buffer's
     // timespan, skip.
@@ -314,22 +315,28 @@ class TwoDeadWheelPoseEstimator {
     }
 
     // Step 4: Measure the transform between the old pose estimate and the
-    // vision transform.
+    // vision pose.
     auto transform = visionRobotPose - visionSample.value();
 
     // Step 5: We should not trust the transform entirely, so instead we scale
     // this transform by a Kalman gain matrix representing how much we trust
     // vision measurements compared to our current pose.
-    Eigen::Vector3d k_times_transform =
-        m_vision_K * Eigen::Vector3d{transform.X().value(),
-                                     transform.Y().value(),
-                                     transform.Rotation().Radians().value()};
+    wpi::math::Vectord<6> k_times_transform =
+        m_vision_K * wpi::math::Vectord<6>{transform.X().value(),
+                                           transform.Y().value(),
+                                           transform.Z().value(),
+                                           transform.Rotation().X().value(),
+                                           transform.Rotation().Y().value(),
+                                           transform.Rotation().Z().value()};
 
-    // Step 6: Convert back to Transform2d.
-    Transform2d scaledTransform{
+    // Step 6: Convert back to Transform3d.
+    Transform3d scaledTransform{
         wpi::units::meter_t{k_times_transform(0)},
         wpi::units::meter_t{k_times_transform(1)},
-        Rotation2d{wpi::units::radian_t{k_times_transform(2)}}};
+        wpi::units::meter_t{k_times_transform(2)},
+        Rotation3d{wpi::units::radian_t{k_times_transform(3)},
+                   wpi::units::radian_t{k_times_transform(4)},
+                   wpi::units::radian_t{k_times_transform(5)}}};
 
     // Step 7: Calculate and record the vision update.
     VisionUpdate visionUpdate{*visionSample + scaledTransform, *odometrySample};
@@ -372,8 +379,8 @@ class TwoDeadWheelPoseEstimator {
    *     less.
    */
   void AddVisionMeasurement(
-      const Pose2d& visionRobotPose, wpi::units::second_t timestamp,
-      const wpi::util::array<double, 3>& visionMeasurementStdDevs) {
+      const Pose3d& visionRobotPose, wpi::units::second_t timestamp,
+      const wpi::util::array<double, 4>& visionMeasurementStdDevs) {
     SetVisionMeasurementStdDevs(visionMeasurementStdDevs);
     AddVisionMeasurement(visionRobotPose, timestamp);
   }
@@ -389,9 +396,9 @@ class TwoDeadWheelPoseEstimator {
    * be offset to match the robot's orientation on the field.
    * @return The updated pose.
    */
-  const Pose2d& Update(const wpi::units::meter_t xWheelPos,
+  const Pose3d& Update(const wpi::units::meter_t xWheelPos,
                        const wpi::units::meter_t yWheelPos,
-                       const Rotation2d& gyroAngle) {
+                       const Rotation3d& gyroAngle) {
     return UpdateWithTime(wpi::math::MathSharedStore::GetTimestamp(), xWheelPos,
                           yWheelPos, gyroAngle);
   }
@@ -408,10 +415,10 @@ class TwoDeadWheelPoseEstimator {
    * be offset to match the robot's orientation on the field.
    * @return The updated pose.
    */
-  const Pose2d& UpdateWithTime(const wpi::units::second_t currentTime,
+  const Pose3d& UpdateWithTime(const wpi::units::second_t currentTime,
                                const wpi::units::meter_t xWheelPos,
                                const wpi::units::meter_t yWheelPos,
-                               const Rotation2d& gyroAngle) {
+                               const Rotation3d& gyroAngle) {
     auto odometryEstimate = m_odometry.Update(xWheelPos, yWheelPos, gyroAngle);
 
     m_odometryPoseBuffer.AddSample(currentTime, odometryEstimate);
@@ -461,10 +468,10 @@ class TwoDeadWheelPoseEstimator {
 
   struct VisionUpdate {
     // The vision-compensated pose estimate
-    Pose2d visionPose;
+    Pose3d visionPose;
 
     // The pose estimated based solely on odometry
-    Pose2d odometryPose;
+    Pose3d odometryPose;
 
     /**
      * Returns the vision-compensated version of the pose. Specifically, changes
@@ -474,7 +481,7 @@ class TwoDeadWheelPoseEstimator {
      * @param pose The pose to compensate.
      * @return The compensated pose.
      */
-    Pose2d Compensate(const Pose2d& pose) const {
+    Pose3d Compensate(const Pose3d& pose) const {
       auto delta = pose - odometryPose;
       return visionPose + delta;
     }
@@ -482,17 +489,17 @@ class TwoDeadWheelPoseEstimator {
 
   static constexpr wpi::units::second_t kBufferDuration = 1.5_s;
 
-  TwoDeadWheelOdometry& m_odometry;
+  TwoDeadWheelOdometry3d& m_odometry;
 
   // Diagonal of process noise covariance matrix Q
-  wpi::util::array<double, 3> m_q{wpi::util::empty_array};
+  wpi::util::array<double, 4> m_q{wpi::util::empty_array};
 
   // Kalman gain matrix K
-  Eigen::DiagonalMatrix<double, 3> m_vision_K =
-      Eigen::DiagonalMatrix<double, 3>::Zero();
+  Eigen::DiagonalMatrix<double, 4> m_vision_K =
+      Eigen::DiagonalMatrix<double, 4>::Zero();
 
   // Maps timestamps to odometry-only pose estimates
-  TimeInterpolatableBuffer<Pose2d> m_odometryPoseBuffer{kBufferDuration};
+  TimeInterpolatableBuffer<Pose3d> m_odometryPoseBuffer{kBufferDuration};
   // Maps timestamps to vision updates
   // Always contains one entry before the oldest entry in m_odometryPoseBuffer,
   // unless there have been no vision measurements after the last reset. May
@@ -500,7 +507,7 @@ class TwoDeadWheelPoseEstimator {
   // translation/rotation after a call to ResetRotation/ResetTranslation.
   std::map<wpi::units::second_t, VisionUpdate> m_visionUpdates;
 
-  Pose2d m_poseEstimate;
+  Pose3d m_poseEstimate;
 };
 
 }  // namespace wpi::math
