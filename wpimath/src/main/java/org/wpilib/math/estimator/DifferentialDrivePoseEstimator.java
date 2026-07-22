@@ -35,19 +35,16 @@ public class DifferentialDrivePoseEstimator extends PoseEstimator<DifferentialDr
    * y, and 0.01 radians for heading. The default standard deviations of the vision measurements are
    * 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder in meters.
    * @param rightDistance The distance traveled by the right encoder in meters.
    * @param initialPose The starting pose estimate.
    */
   public DifferentialDrivePoseEstimator(
-      Rotation2d gyroAngle,
-      double leftDistance,
-      double rightDistance,
-      Pose2d initialPose) {
+      Rotation2d gyroAngle, double leftDistance, double rightDistance, Pose2d initialPose) {
     this(
-      gyroAngle,
+        gyroAngle,
         leftDistance,
         rightDistance,
         initialPose,
@@ -58,8 +55,8 @@ public class DifferentialDrivePoseEstimator extends PoseEstimator<DifferentialDr
   /**
    * Constructs a DifferentialDrivePoseEstimator.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder in meters.
    * @param rightDistance The distance traveled by the right encoder in meters.
    * @param initialPose The estimated initial pose.
@@ -78,7 +75,7 @@ public class DifferentialDrivePoseEstimator extends PoseEstimator<DifferentialDr
       Matrix<N3, N1> stateStdDevs,
       Matrix<N3, N1> visionMeasurementStdDevs) {
     super(
-      new DifferentialDriveOdometry(gyroAngle, leftDistance, rightDistance, initialPose),
+        new DifferentialDriveOdometry(gyroAngle, leftDistance, rightDistance, initialPose),
         stateStdDevs,
         visionMeasurementStdDevs);
   }
@@ -89,8 +86,8 @@ public class DifferentialDrivePoseEstimator extends PoseEstimator<DifferentialDr
    * <p>The gyroscope angle does not need to be reset here on the user's robot code. The library
    * automatically takes care of offsetting the gyro angle.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param leftPosition The distance traveled by the left encoder in meters.
    * @param rightPosition The distance traveled by the right encoder in meters.
    * @param pose The position on the field that your robot is at.
@@ -105,8 +102,8 @@ public class DifferentialDrivePoseEstimator extends PoseEstimator<DifferentialDr
    * Updates the pose estimator with wheel encoder and gyro information. This should be called every
    * loop.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param distanceLeft The total distance travelled by the left wheel in meters.
    * @param distanceRight The total distance travelled by the right wheel in meters.
    * @return The estimated pose of the robot in meters.
@@ -120,8 +117,8 @@ public class DifferentialDrivePoseEstimator extends PoseEstimator<DifferentialDr
    * loop.
    *
    * @param currentTime Time at which this method was called, in seconds.
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param distanceLeft The total distance travelled by the left wheel in meters.
    * @param distanceRight The total distance travelled by the right wheel in meters.
    * @return The estimated pose of the robot in meters.

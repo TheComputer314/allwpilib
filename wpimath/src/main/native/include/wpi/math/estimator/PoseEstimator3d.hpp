@@ -120,10 +120,11 @@ class WPILIB_DLLEXPORT PoseEstimator3d {
   /**
    * Resets the robot's position on the field.
    *
-   * The gyroscope angle does not need to be reset here in the user's robot code.
+   * The gyroscope angle does not need to be reset here in the user's robot
+   * code.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to
+   * be offset to match the robot's orientation on the field.
    * @param wheelPositions The distances traveled by the encoders.
    * @param pose The estimated pose of the robot on the field.
    */
@@ -398,8 +399,8 @@ class WPILIB_DLLEXPORT PoseEstimator3d {
    * Updates the pose estimator with wheel encoder and gyro information. This
    * should be called every loop.
    *
-  * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to
+   * be offset to match the robot's orientation on the field.
    * @param wheelPositions The distances traveled by the encoders.
    *
    * @return The estimated pose of the robot in meters.
@@ -415,8 +416,8 @@ class WPILIB_DLLEXPORT PoseEstimator3d {
    * should be called every loop.
    *
    * @param currentTime   The time at which this method was called.
-  * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to
+   * be offset to match the robot's orientation on the field.
    * @param wheelPositions The distances traveled by the encoders.
    *
    * @return The estimated pose of the robot in meters.

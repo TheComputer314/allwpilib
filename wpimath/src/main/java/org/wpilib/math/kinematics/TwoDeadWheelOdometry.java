@@ -46,8 +46,8 @@ public class TwoDeadWheelOdometry {
    *     in meters.
    * @param xWheelPos The distance traveled by the forward-facing wheel, in meters.
    * @param yWheelPos The distance traveled by the left-facing wheel, in meters.
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param initialPose The starting position of the robot on the field.
    */
   public TwoDeadWheelOdometry(
@@ -76,8 +76,8 @@ public class TwoDeadWheelOdometry {
    *     in meters.
    * @param xWheelPos The distance traveled by the forward-facing wheel, in meters.
    * @param yWheelPos The distance traveled by the left-facing wheel, in meters.
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    */
   public TwoDeadWheelOdometry(
       double xWheelYPos,
@@ -97,8 +97,8 @@ public class TwoDeadWheelOdometry {
    *     in meters.
    * @param xWheelPos The distance traveled by the forward-facing wheel, in meters.
    * @param yWheelPos The distance traveled by the left-facing wheel, in meters.
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param initialPose The starting position of the robot on the field.
    */
   public TwoDeadWheelOdometry(
@@ -126,8 +126,8 @@ public class TwoDeadWheelOdometry {
    *     in meters.
    * @param xWheelPos The distance traveled by the forward-facing wheel, in meters.
    * @param yWheelPos The distance traveled by the left-facing wheel, in meters.
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    */
   public TwoDeadWheelOdometry(
       Distance xWheelYPos,
@@ -145,8 +145,8 @@ public class TwoDeadWheelOdometry {
    *
    * @param xWheelPos The distance traveled by the forward-facing wheel, in meters.
    * @param yWheelPos The distance traveled by the left-facing wheel, in meters.
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param pose The new position of the robot on the field.
    */
   public void resetPosition(double xWheelPos, double yWheelPos, Rotation2d gyroAngle, Pose2d pose) {
@@ -197,8 +197,8 @@ public class TwoDeadWheelOdometry {
    *
    * @param xWheelPos The distance traveled by the forward-facing wheel, in meters.
    * @param yWheelPos The distance traveled by the left-facing wheel, in meters.
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @return The updated pose.
    */
   public Pose2d update(double xWheelPos, double yWheelPos, Rotation2d gyroAngle) {

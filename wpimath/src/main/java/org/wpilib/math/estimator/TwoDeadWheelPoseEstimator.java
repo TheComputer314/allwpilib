@@ -129,7 +129,6 @@ public class TwoDeadWheelPoseEstimator {
       m_q[i] = stateStdDevs.get(i, 0) * stateStdDevs.get(i, 0);
     }
     setVisionMeasurementStdDevs(visionMeasurementStdDevs);
-    MathSharedStore.getMathShared().reportUsage("PoseEstimator", "");
   }
 
   /**
@@ -415,7 +414,7 @@ public class TwoDeadWheelPoseEstimator {
    * @return The estimated pose of the robot in meters.
    */
   public Pose2d update(double xWheelPos, double yWheelPos, Rotation2d gyroAngle) {
-    return updateWithTime(MathSharedStore.getTimestamp(),xWheelPos, yWheelPos, gyroAngle);
+    return updateWithTime(MathSharedStore.getTimestamp(), xWheelPos, yWheelPos, gyroAngle);
   }
 
   /**
@@ -428,8 +427,8 @@ public class TwoDeadWheelPoseEstimator {
    * @param gyroAngle The current gyro angle.
    * @return The estimated pose of the robot in meters.
    */
-  public Pose2d updateWithTime(double currentTime, double xWheelPos, double yWheelPos,
-                               Rotation2d gyroAngle) {
+  public Pose2d updateWithTime(
+      double currentTime, double xWheelPos, double yWheelPos, Rotation2d gyroAngle) {
     var odometryEstimate = m_odometry.update(xWheelPos, yWheelPos, gyroAngle);
 
     m_odometryPoseBuffer.addSample(currentTime, odometryEstimate);

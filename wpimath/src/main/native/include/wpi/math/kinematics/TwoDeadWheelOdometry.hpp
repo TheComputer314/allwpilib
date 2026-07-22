@@ -39,8 +39,8 @@ class TwoDeadWheelOdometry {
    * @param xWheelPos The distance traveled by the forward-facing wheel, in
    * meters.
    * @param yWheelPos The distance traveled by the left-facing wheel, in meters.
-  * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to
+   * be offset to match the robot's orientation on the field.
    * @param initialPose The starting position of the robot on the field.
    */
   explicit TwoDeadWheelOdometry(const wpi::units::meter_t xWheelYPos,
@@ -62,8 +62,8 @@ class TwoDeadWheelOdometry {
    * @param xWheelPos The distance traveled by the forward-facing wheel, in
    * meters.
    * @param yWheelPos The distance traveled by the left-facing wheel, in meters.
-  * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to
+   * be offset to match the robot's orientation on the field.
    * @param pose The new position of the robot on the field.
    */
   void ResetPosition(const wpi::units::meter_t xWheelPos,
@@ -112,8 +112,8 @@ class TwoDeadWheelOdometry {
    * @param xWheelPos The distance traveled by the forward-facing wheel, in
    * meters.
    * @param yWheelPos The distance traveled by the left-facing wheel, in meters.
-    * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-     *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to
+   * be offset to match the robot's orientation on the field.
    * @return The updated pose.
    */
   const Pose2d& Update(const wpi::units::meter_t xWheelPos,

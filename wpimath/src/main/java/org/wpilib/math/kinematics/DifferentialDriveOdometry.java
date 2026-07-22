@@ -25,8 +25,8 @@ public class DifferentialDriveOdometry extends Odometry<DifferentialDriveWheelPo
   /**
    * Constructs a DifferentialDriveOdometry object.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder in meters.
    * @param rightDistance The distance traveled by the right encoder in meters.
    * @param initialPose The starting position of the robot on the field.
@@ -44,8 +44,8 @@ public class DifferentialDriveOdometry extends Odometry<DifferentialDriveWheelPo
   /**
    * Constructs a DifferentialDriveOdometry object.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder.
    * @param rightDistance The distance traveled by the right encoder.
    * @param initialPose The starting position of the robot on the field.
@@ -58,8 +58,8 @@ public class DifferentialDriveOdometry extends Odometry<DifferentialDriveWheelPo
   /**
    * Constructs a DifferentialDriveOdometry object.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder in meters.
    * @param rightDistance The distance traveled by the right encoder in meters.
    */
@@ -71,8 +71,8 @@ public class DifferentialDriveOdometry extends Odometry<DifferentialDriveWheelPo
   /**
    * Constructs a DifferentialDriveOdometry object.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder.
    * @param rightDistance The distance traveled by the right encoder.
    */
@@ -86,8 +86,8 @@ public class DifferentialDriveOdometry extends Odometry<DifferentialDriveWheelPo
    *
    * <p>The gyroscope angle does not need to be reset here in the user's robot code.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder in meters.
    * @param rightDistance The distance traveled by the right encoder in meters.
    * @param pose The position on the field that your robot is at.
@@ -103,8 +103,8 @@ public class DifferentialDriveOdometry extends Odometry<DifferentialDriveWheelPo
    *
    * <p>The gyroscope angle does not need to be reset here in the user's robot code.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder.
    * @param rightDistance The distance traveled by the right encoder.
    * @param pose The position on the field that your robot is at.
@@ -117,8 +117,8 @@ public class DifferentialDriveOdometry extends Odometry<DifferentialDriveWheelPo
   /**
    * Updates the robot position on the field using distance measurements from encoders.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder in meters.
    * @param rightDistance The distance traveled by the right encoder in meters.
    * @return The new pose of the robot.

@@ -35,8 +35,8 @@ public class MecanumDrivePoseEstimator extends PoseEstimator<MecanumDriveWheelPo
    * 0.45 meters for x, 0.45 meters for y, and 0.45 radians for heading.
    *
    * @param kinematics A correctly-configured kinematics object for your drivetrain.
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param wheelPositions The distances driven by each wheel.
    * @param initialPose The starting pose estimate.
    */
@@ -76,7 +76,7 @@ public class MecanumDrivePoseEstimator extends PoseEstimator<MecanumDriveWheelPo
       Matrix<N3, N1> stateStdDevs,
       Matrix<N3, N1> visionMeasurementStdDevs) {
     super(
-      new MecanumDriveOdometry(kinematics, gyroAngle, wheelPositions, initialPose),
+        new MecanumDriveOdometry(kinematics, gyroAngle, wheelPositions, initialPose),
         stateStdDevs,
         visionMeasurementStdDevs);
   }

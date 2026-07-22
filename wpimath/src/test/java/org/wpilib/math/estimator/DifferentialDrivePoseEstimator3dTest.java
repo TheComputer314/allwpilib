@@ -38,7 +38,7 @@ class DifferentialDrivePoseEstimator3dTest {
 
     var estimator =
         new DifferentialDrivePoseEstimator3d(
-          Rotation3d.kZero,
+            Rotation3d.kZero,
             0,
             0,
             Pose3d.kZero,
@@ -74,7 +74,7 @@ class DifferentialDrivePoseEstimator3dTest {
 
     var estimator =
         new DifferentialDrivePoseEstimator3d(
-          Rotation3d.kZero,
+            Rotation3d.kZero,
             0,
             0,
             Pose3d.kZero,
@@ -229,7 +229,7 @@ class DifferentialDrivePoseEstimator3dTest {
 
     var estimator =
         new DifferentialDrivePoseEstimator3d(
-          Rotation3d.kZero,
+            Rotation3d.kZero,
             0,
             0,
             new Pose3d(1, 2, 0, new Rotation3d(0, 0, -Math.PI / 2)),
@@ -274,7 +274,7 @@ class DifferentialDrivePoseEstimator3dTest {
     var kinematics = new DifferentialDriveKinematics(1);
     var estimator =
         new DifferentialDrivePoseEstimator3d(
-          Rotation3d.kZero,
+            Rotation3d.kZero,
             0,
             0,
             Pose3d.kZero,
@@ -327,7 +327,7 @@ class DifferentialDrivePoseEstimator3dTest {
     var kinematics = new DifferentialDriveKinematics(1);
     var estimator =
         new DifferentialDrivePoseEstimator3d(
-          Rotation3d.kZero,
+            Rotation3d.kZero,
             0,
             0,
             Pose3d.kZero,
@@ -376,7 +376,7 @@ class DifferentialDrivePoseEstimator3dTest {
     var kinematics = new DifferentialDriveKinematics(1);
     var estimator =
         new DifferentialDrivePoseEstimator3d(
-          Rotation3d.kZero,
+            Rotation3d.kZero,
             0,
             0,
             Pose3d.kZero,

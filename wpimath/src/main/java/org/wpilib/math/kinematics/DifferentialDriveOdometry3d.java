@@ -34,8 +34,8 @@ public class DifferentialDriveOdometry3d extends Odometry3d<DifferentialDriveWhe
   /**
    * Constructs a DifferentialDriveOdometry3d object.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder in meters.
    * @param rightDistance The distance traveled by the right encoder in meters.
    * @param initialPose The starting position of the robot on the field.
@@ -53,8 +53,8 @@ public class DifferentialDriveOdometry3d extends Odometry3d<DifferentialDriveWhe
   /**
    * Constructs a DifferentialDriveOdometry3d object.
    *
-   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-   *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to match
+   *     the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder.
    * @param rightDistance The distance traveled by the right encoder.
    * @param initialPose The starting position of the robot on the field.

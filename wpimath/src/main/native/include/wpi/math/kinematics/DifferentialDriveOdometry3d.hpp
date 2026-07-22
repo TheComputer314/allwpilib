@@ -36,8 +36,8 @@ class WPILIB_DLLEXPORT DifferentialDriveOdometry3d
    * IF leftDistance and rightDistance are unspecified,
    * You NEED to reset your encoders (to zero).
    *
-    * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-     *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to
+   * be offset to match the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder.
    * @param rightDistance The distance traveled by the right encoder.
    * @param initialPose The starting position of the robot on the field.
@@ -57,8 +57,8 @@ class WPILIB_DLLEXPORT DifferentialDriveOdometry3d
    * code. The library automatically takes care of offsetting the gyro angle.
    *
    * @param pose The position on the field that your robot is at.
-    * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-     *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to
+   * be offset to match the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder.
    * @param rightDistance The distance traveled by the right encoder.
    */
@@ -72,8 +72,8 @@ class WPILIB_DLLEXPORT DifferentialDriveOdometry3d
    * Updates the robot position on the field using distance measurements from
    * encoders.
    *
-    * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
-     *                  match the robot's orientation on the field.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to
+   * be offset to match the robot's orientation on the field.
    * @param leftDistance The distance traveled by the left encoder.
    * @param rightDistance The distance traveled by the right encoder.
    * @return The new pose of the robot.
