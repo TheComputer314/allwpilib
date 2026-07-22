@@ -54,7 +54,8 @@ class SwerveDrivePoseEstimator3d
    *
    * @param kinematics A correctly-configured kinematics object for your
    *     drivetrain.
-   * @param gyroAngle The current gyro angle.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
+   *                  match the robot's orientation on the field.
    * @param modulePositions The current distance and rotation measurements of
    *     the swerve modules.
    * @param initialPose The starting pose estimate.
@@ -74,7 +75,8 @@ class SwerveDrivePoseEstimator3d
    *
    * @param kinematics A correctly-configured kinematics object for your
    *     drivetrain.
-   * @param gyroAngle The current gyro angle.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
+   *                  match the robot's orientation on the field.
    * @param modulePositions The current distance and rotation measurements of
    *     the swerve modules.
    * @param initialPose The starting pose estimate.

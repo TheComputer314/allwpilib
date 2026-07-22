@@ -44,7 +44,8 @@ public class MecanumDrivePoseEstimator3d extends PoseEstimator3d<MecanumDriveWhe
    * angle.
    *
    * @param kinematics A correctly-configured kinematics object for your drivetrain.
-   * @param gyroAngle The current gyro angle.
+   * @param gyroAngle The angle reported by the gyroscope. This does not need to be offset to
+   *                  match the robot's orientation on the field.
    * @param wheelPositions The distances driven by each wheel.
    * @param initialPose The starting pose estimate.
    */
