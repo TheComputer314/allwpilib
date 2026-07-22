@@ -30,21 +30,21 @@
 
 namespace wpi::math {
 
-  /**
-   * This class wraps Two Dead Wheel Odometry to fuse latency-compensated
-   * vision measurements with swerve drive encoder distance measurements. It is
-   * intended to be a drop-in for TwoDeadWheelOdometry3d. It is also intended to be
-   * an easy replacement for PoseEstimator, only requiring the addition of a
-   * standard deviation for Z and appropriate conversions between 2D and 3D
-   * versions of geometry classes. (See Pose3d(Pose2d), Rotation3d(Rotation2d),
-   * Translation3d(Translation2d), and Pose3d.ToPose2d().)
-   *
-   * Update() should be called every robot loop.
-   *
-   * AddVisionMeasurement() can be called as infrequently as you want; if you
-   * never call it, then this class will behave as regular encoder
-   * odometry.
-   */
+/**
+ * This class wraps Two Dead Wheel Odometry to fuse latency-compensated
+ * vision measurements with swerve drive encoder distance measurements. It is
+ * intended to be a drop-in for TwoDeadWheelOdometry3d. It is also intended to
+ * be an easy replacement for PoseEstimator, only requiring the addition of a
+ * standard deviation for Z and appropriate conversions between 2D and 3D
+ * versions of geometry classes. (See Pose3d(Pose2d), Rotation3d(Rotation2d),
+ * Translation3d(Translation2d), and Pose3d.ToPose2d().)
+ *
+ * Update() should be called every robot loop.
+ *
+ * AddVisionMeasurement() can be called as infrequently as you want; if you
+ * never call it, then this class will behave as regular encoder
+ * odometry.
+ */
 class TwoDeadWheelPoseEstimator3d {
  public:
   /**
