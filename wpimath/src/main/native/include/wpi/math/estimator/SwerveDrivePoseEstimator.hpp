@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <cstddef>
-
 #include "wpi/math/estimator/PoseEstimator.hpp"
 #include "wpi/math/geometry/Pose2d.hpp"
 #include "wpi/math/geometry/Rotation2d.hpp"
@@ -87,8 +85,8 @@ class SwerveDrivePoseEstimator
       const Pose2d& initialPose,
       const wpi::util::array<double, 3>& stateStdDevs,
       const wpi::util::array<double, 3>& visionMeasurementStdDevs)
-      : SwerveDrivePoseEstimator::PoseEstimator(
-            kinematics, m_odometryImpl, stateStdDevs, visionMeasurementStdDevs),
+      : SwerveDrivePoseEstimator::PoseEstimator(m_odometryImpl, stateStdDevs,
+                                                visionMeasurementStdDevs),
         m_odometryImpl{kinematics, gyroAngle, modulePositions, initialPose} {
     this->ResetPose(initialPose);
   }

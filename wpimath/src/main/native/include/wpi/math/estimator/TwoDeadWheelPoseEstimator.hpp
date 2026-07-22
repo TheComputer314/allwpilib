@@ -28,17 +28,17 @@
 
 namespace wpi::math {
 
-  /**
-   * This class wraps Two Dead Wheel Odometry to fuse latency-compensated
-   * vision measurements with two-dead-wheel drive encoder distance measurements. It is
-   * intended to be a drop-in for TwoDeadWheelOdometry.
-   *
-   * Update() should be called every robot loop.
-   *
-   * AddVisionMeasurement() can be called as infrequently as you want; if you
-   * never call it, then this class will behave as regular encoder
-   * odometry.
-   */
+/**
+ * This class wraps Two Dead Wheel Odometry to fuse latency-compensated
+ * vision measurements with two-dead-wheel drive encoder distance measurements.
+ * It is intended to be a drop-in for TwoDeadWheelOdometry.
+ *
+ * Update() should be called every robot loop.
+ *
+ * AddVisionMeasurement() can be called as infrequently as you want; if you
+ * never call it, then this class will behave as regular encoder
+ * odometry.
+ */
 class TwoDeadWheelPoseEstimator {
   /*
    * This class uses logic cloned from PoseEstimator.java. It does not extend

@@ -6,7 +6,6 @@ package org.wpilib.math.estimator;
 
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
-import org.wpilib.math.kinematics.DifferentialDriveKinematics;
 import org.wpilib.math.kinematics.DifferentialDriveOdometry;
 import org.wpilib.math.kinematics.DifferentialDriveWheelPositions;
 import org.wpilib.math.linalg.Matrix;
@@ -36,21 +35,18 @@ public class DifferentialDrivePoseEstimator extends PoseEstimator<DifferentialDr
    * y, and 0.01 radians for heading. The default standard deviations of the vision measurements are
    * 0.1 meters for x, 0.1 meters for y, and 0.1 radians for heading.
    *
-   * @param kinematics A correctly-configured kinematics object for your drivetrain.
    * @param gyroAngle The current gyro angle.
    * @param leftDistance The distance traveled by the left encoder in meters.
    * @param rightDistance The distance traveled by the right encoder in meters.
    * @param initialPose The starting pose estimate.
    */
   public DifferentialDrivePoseEstimator(
-      DifferentialDriveKinematics kinematics,
       Rotation2d gyroAngle,
       double leftDistance,
       double rightDistance,
       Pose2d initialPose) {
     this(
-        kinematics,
-        gyroAngle,
+      gyroAngle,
         leftDistance,
         rightDistance,
         initialPose,
@@ -61,7 +57,6 @@ public class DifferentialDrivePoseEstimator extends PoseEstimator<DifferentialDr
   /**
    * Constructs a DifferentialDrivePoseEstimator.
    *
-   * @param kinematics A correctly-configured kinematics object for your drivetrain.
    * @param gyroAngle The gyro angle of the robot.
    * @param leftDistance The distance traveled by the left encoder in meters.
    * @param rightDistance The distance traveled by the right encoder in meters.
@@ -74,7 +69,6 @@ public class DifferentialDrivePoseEstimator extends PoseEstimator<DifferentialDr
    *     the vision pose measurement less.
    */
   public DifferentialDrivePoseEstimator(
-      DifferentialDriveKinematics kinematics,
       Rotation2d gyroAngle,
       double leftDistance,
       double rightDistance,
@@ -82,8 +76,7 @@ public class DifferentialDrivePoseEstimator extends PoseEstimator<DifferentialDr
       Matrix<N3, N1> stateStdDevs,
       Matrix<N3, N1> visionMeasurementStdDevs) {
     super(
-        kinematics,
-        new DifferentialDriveOdometry(gyroAngle, leftDistance, rightDistance, initialPose),
+      new DifferentialDriveOdometry(gyroAngle, leftDistance, rightDistance, initialPose),
         stateStdDevs,
         visionMeasurementStdDevs);
   }

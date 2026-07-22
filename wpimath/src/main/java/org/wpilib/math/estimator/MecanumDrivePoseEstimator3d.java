@@ -84,8 +84,7 @@ public class MecanumDrivePoseEstimator3d extends PoseEstimator3d<MecanumDriveWhe
       Matrix<N4, N1> stateStdDevs,
       Matrix<N4, N1> visionMeasurementStdDevs) {
     super(
-        kinematics,
-        new MecanumDriveOdometry3d(kinematics, gyroAngle, wheelPositions, initialPose),
+      new MecanumDriveOdometry3d(kinematics, gyroAngle, wheelPositions, initialPose),
         stateStdDevs,
         visionMeasurementStdDevs);
   }

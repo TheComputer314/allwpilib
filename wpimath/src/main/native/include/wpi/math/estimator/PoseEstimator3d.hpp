@@ -62,8 +62,6 @@ class WPILIB_DLLEXPORT PoseEstimator3d {
    * @warning The initial pose estimate will always be the default pose,
    * regardless of the odometry's current pose.
    *
-   * @param kinematics A correctly-configured kinematics object for your
-   *     drivetrain.
    * @param odometry A correctly-configured odometry object for your drivetrain.
    * @param stateStdDevs Standard deviations of the pose estimate (x position in
    *     meters, y position in meters, and heading in radians). Increase these
@@ -73,8 +71,7 @@ class WPILIB_DLLEXPORT PoseEstimator3d {
    * in meters, and angle in radians). Increase these numbers to trust the
    * vision pose measurement less.
    */
-  PoseEstimator3d(const Kinematics& kinematics,
-                  Odometry3d<Kinematics, WheelPositions, WheelVelocities,
+  PoseEstimator3d(Odometry3d<Kinematics, WheelPositions, WheelVelocities,
                              WheelAccelerations>& odometry,
                   const wpi::util::array<double, 4>& stateStdDevs,
                   const wpi::util::array<double, 4>& visionMeasurementStdDevs)

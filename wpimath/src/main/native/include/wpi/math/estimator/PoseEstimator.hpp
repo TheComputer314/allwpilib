@@ -68,8 +68,7 @@ class WPILIB_DLLEXPORT PoseEstimator {
    *     radians). Increase these numbers to trust the vision pose measurement
    *     less.
    */
-  PoseEstimator(const Kinematics& kinematics,
-                Odometry<Kinematics, WheelPositions, WheelVelocities,
+  PoseEstimator(Odometry<Kinematics, WheelPositions, WheelVelocities,
                          WheelAccelerations>& odometry,
                 const wpi::util::array<double, 3>& stateStdDevs,
                 const wpi::util::array<double, 3>& visionMeasurementStdDevs)

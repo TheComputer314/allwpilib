@@ -10,7 +10,6 @@ import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Rotation3d;
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.math.geometry.Translation3d;
-import org.wpilib.math.kinematics.DifferentialDriveKinematics;
 import org.wpilib.math.kinematics.DifferentialDriveOdometry3d;
 import org.wpilib.math.kinematics.DifferentialDriveWheelPositions;
 import org.wpilib.math.linalg.Matrix;
@@ -46,21 +45,18 @@ public class DifferentialDrivePoseEstimator3d
    * measurements are 0.1 meters for x, 0.1 meters for y, 0.1 meters for z, and 0.1 radians for
    * angle.
    *
-   * @param kinematics A correctly-configured kinematics object for your drivetrain.
    * @param gyroAngle The current gyro angle.
    * @param leftDistance The distance traveled by the left encoder in meters.
    * @param rightDistance The distance traveled by the right encoder in meters.
    * @param initialPose The starting pose estimate.
    */
   public DifferentialDrivePoseEstimator3d(
-      DifferentialDriveKinematics kinematics,
       Rotation3d gyroAngle,
       double leftDistance,
       double rightDistance,
       Pose3d initialPose) {
     this(
-        kinematics,
-        gyroAngle,
+      gyroAngle,
         leftDistance,
         rightDistance,
         initialPose,
@@ -71,7 +67,6 @@ public class DifferentialDrivePoseEstimator3d
   /**
    * Constructs a DifferentialDrivePoseEstimator3d.
    *
-   * @param kinematics A correctly-configured kinematics object for your drivetrain.
    * @param gyroAngle The gyro angle of the robot.
    * @param leftDistance The distance traveled by the left encoder in meters.
    * @param rightDistance The distance traveled by the right encoder in meters.
@@ -84,7 +79,6 @@ public class DifferentialDrivePoseEstimator3d
    *     the vision pose measurement less.
    */
   public DifferentialDrivePoseEstimator3d(
-      DifferentialDriveKinematics kinematics,
       Rotation3d gyroAngle,
       double leftDistance,
       double rightDistance,
@@ -92,8 +86,7 @@ public class DifferentialDrivePoseEstimator3d
       Matrix<N4, N1> stateStdDevs,
       Matrix<N4, N1> visionMeasurementStdDevs) {
     super(
-        kinematics,
-        new DifferentialDriveOdometry3d(gyroAngle, leftDistance, rightDistance, initialPose),
+      new DifferentialDriveOdometry3d(gyroAngle, leftDistance, rightDistance, initialPose),
         stateStdDevs,
         visionMeasurementStdDevs);
   }
